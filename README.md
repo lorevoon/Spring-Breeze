@@ -4,16 +4,9 @@ Spring Breeze was originally a submission for the <a href="https://itch.io/jam/c
 
 After years, we decided to update the game!
 
-### Original Team
-HectorTL (itch.io, github)
-  - programmer
-Zoe (itch.io, github)
-  - artist
-Lalo
-  - musician
+<br>
 
-### New Team
-HectorTL (<a href="https://hectortl.itch.io/">itch.io</a>, <a href="https://github.com/HTLGames">Github</a>)
-  - programmer
-Zoe (<a href="https://lorevoon.itch.io/">itch.io</a>, <a href="https://github.com/lorevoon">Github</a>)
-  - artist, programmer
+## Team
+HectorTL (<a href="https://hectortl.itch.io/">itch.io</a>, <a href="https://github.com/HTLGames">Github</a>): programmer
+
+Zoe (<a href="https://lorevoon.itch.io/">itch.io</a>, <a href="https://github.com/lorevoon">Github</a>): artist & programmer
