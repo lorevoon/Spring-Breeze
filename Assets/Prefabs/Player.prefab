@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2396326289058845571}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0865, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.1731, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1744361525
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: 6723a92433b274b9bad75baa87de6e48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
@@ -103,6 +103,8 @@ GameObject:
   - component: {fileID: 7257142282759452514}
   - component: {fileID: 3450673846818347926}
   - component: {fileID: 5341867737631313970}
+  - component: {fileID: 6011313421915658012}
+  - component: {fileID: 6866981057958598208}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -161,8 +163,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.04, y: 0.12}
-  m_Radius: 0.56
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!50 &3214526736011480785
 Rigidbody2D:
   serializedVersion: 5
@@ -5099,7 +5101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 13cd6d7f3dd047d47ab3c309b50c5d4c, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -5137,8 +5139,8 @@ MonoBehaviour:
     m_ActionId: 6e874c39-9dbf-4ebd-92b8-0beb82f492ec
     m_ActionName: 'PlayerMove/Pause[/Keyboard/escape,/DualShock4GamepadHID/start]'
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerMove
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!95 &5341867737631313970
@@ -5163,6 +5165,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6011313421915658012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953192588541589710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e2f7a99e1c54c28970b37bee7163fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6866981057958598208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953192588541589710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d5c1e4cac584ae98c32adfd690c8f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSpeed: 2.5
+  _movementSmooth: 10
 --- !u!1 &5376186018399413936
 GameObject:
   m_ObjectHideFlags: 0
@@ -5189,8 +5217,8 @@ Transform:
   m_GameObject: {fileID: 5376186018399413936}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.16, y: -1.19, z: 1}
-  m_LocalScale: {x: 1, y: 1.1764705, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5789952338094957912}
@@ -5238,7 +5266,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 1
   m_Sprite: {fileID: 2520639231986099488, guid: d896e654e879f4442bc08fe8a036b316, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5276,7 +5304,7 @@ Transform:
   m_GameObject: {fileID: 6986098634494912827}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.08, y: 2.14, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
