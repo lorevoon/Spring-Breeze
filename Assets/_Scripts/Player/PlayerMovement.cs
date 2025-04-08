@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     // Parameters
-    [SerializeField] private float _playerSpeed = 1f;
+    [SerializeField] private float _defaultPlayerSpeed = 1f;
+    private float _playerSpeed;
     [SerializeField] private float _movementSmooth = 2f;
 
     // Input
@@ -25,8 +26,17 @@ public class PlayerMovement : MonoBehaviour
     public float movementAmount {
         get => _movementVector.magnitude / _playerSpeed;
     }
+
     public bool isMoving {
         get => _movementVector != Vector2.zero;
+    }
+
+    /// <summary>
+    /// Multiplies the default player speed. Set to 1 to reset speed to default value.
+    /// </summary>
+    public float playerSpeedMultiplier {
+        get => _playerSpeed /  _defaultPlayerSpeed;
+        set => _playerSpeed = _defaultPlayerSpeed * value;
     }
 
     void Awake()
@@ -39,10 +49,8 @@ public class PlayerMovement : MonoBehaviour
         _input = GetComponent<PlayerInput>();
         _moveAction = _input.actions["Move"];
 
-        _moveAction.started += context => {
-            
-            
-        };
+        // Setup variables
+        _playerSpeed = _defaultPlayerSpeed;
     }
 
     void FixedUpdate()
