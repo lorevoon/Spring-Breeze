@@ -1,14 +1,8 @@
 using System;
 using UnityEngine;
 
-public enum ECamera
+public enum EInteraction
 {
-    MainMenu,
-    MainGame,
-}
-
-public enum EFlower
-{
-    Tulip,
-    Daisy,
+    Water,
+    Light
 }

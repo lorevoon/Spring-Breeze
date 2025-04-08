@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // C# Events
+    public event System.Action OnSave;
+    public string ID;
+    public int loaded;
+    
+    public void OnSaveData()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (OnSave != null)
+            OnSave();
     }
 }
