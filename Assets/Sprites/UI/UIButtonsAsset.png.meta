@@ -335,7 +335,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UIButtonsAsset_0: 5757027780751414656
+      UIButtonsAsset_1: -897611815685770941
+      UIButtonsAsset_2: -3932543303400587031
+      UIButtonsAsset_3: -7502762735599152989
+      UIButtonsAsset_4: -2134184174434492583
+      UIButtonsAsset_5: 1700133870391296473
+      UIButtonsAsset_6: 583455884614435498
+      UIButtonsAsset_7: -3955913642453994834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

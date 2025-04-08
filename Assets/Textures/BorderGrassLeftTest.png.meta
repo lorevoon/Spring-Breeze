@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BorderGrassLeftTest_0: 5490255083688957610
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

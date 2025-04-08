@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class SystemSaver : MonoBehaviour
+public class SystemSaver
 {
     /// <summary>
     /// Includes the <color=#ffff00>DataSave()</color> and <color=#ffff00>DataLoad()</color> methods

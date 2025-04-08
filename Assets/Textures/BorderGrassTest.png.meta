@@ -385,7 +385,17 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      BorderGrassTest_0: 6765752345249085697
+      BorderGrassTest_1: -2613625345473671840
+      BorderGrassTest_2: 9183864783312146789
+      BorderGrassTest_3: 6482682062383743022
+      BorderGrassTest_4: -7076357369541490158
+      BorderGrassTest_5: 1414951146994220874
+      BorderGrassTest_6: 6926105963954642589
+      BorderGrassTest_7: -4677177245226712287
+      BorderGrassTest_8: 6314212399281440232
+      BorderGrassTest_9: 8767827218404473327
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
