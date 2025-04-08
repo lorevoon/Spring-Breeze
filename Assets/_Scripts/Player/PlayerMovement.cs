@@ -1,3 +1,4 @@
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,6 +38,11 @@ public class PlayerMovement : MonoBehaviour
         // Setup input actions
         _input = GetComponent<PlayerInput>();
         _moveAction = _input.actions["Move"];
+
+        _moveAction.started += context => {
+            
+            
+        };
     }
 
     void FixedUpdate()
@@ -45,5 +51,9 @@ public class PlayerMovement : MonoBehaviour
         _movementVector = Vector2.Lerp(_movementVector, _moveAction.ReadValue<Vector2>() * _playerSpeed, 
             Time.fixedDeltaTime * _movementSmooth);
         rb.linearVelocity = _movementVector;
+        anim.SetFloat("Movement", movementAmount);
+
+        // Face towards movement
+        transform.localScale = new Vector3(_movementVector.x > 0 ? -1 : 1, 1, 1);
     }
 }
