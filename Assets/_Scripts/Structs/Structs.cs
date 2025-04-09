@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public struct SInteractionData
+public struct SInteractionTaskData
 {
     public bool interacted;
-    public float interactionPercent;
+    public float interactionTime;
 }
 
 public struct SFlowerData
