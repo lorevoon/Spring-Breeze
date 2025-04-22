@@ -6,9 +6,13 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     // Parameters
+    [Header("Movement")]
     [SerializeField] private float _defaultPlayerSpeed = 1f;
     private float _playerSpeed;
     [SerializeField] private float _movementSmooth = 2f;
+    [Header("Animations")]
+    [SerializeField] private Transform _head;
+    [SerializeField] private float _headTwistAmount = 10f;
 
     // Input
     private PlayerInput _input;
@@ -19,12 +23,15 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
+    // Animation
+    private float _direction = 1;
+
     // Properties
     /// <summary>
     /// Gets the magnitude of the player's velocity in a range of [0,1]
     /// </summary>
-    public float movementAmount {
-        get => _movementVector.magnitude / _playerSpeed;
+    public Vector2 movementDirection {
+        get => _movementVector / _playerSpeed;
     }
 
     public bool isMoving {
@@ -59,9 +66,19 @@ public class PlayerMovement : MonoBehaviour
         _movementVector = Vector2.Lerp(_movementVector, _moveAction.ReadValue<Vector2>() * _playerSpeed, 
             Time.fixedDeltaTime * _movementSmooth);
         rb.linearVelocity = _movementVector;
-        anim.SetFloat("Movement", movementAmount);
+        anim.SetFloat("Movement", Mathf.Abs(_movementVector.x) / _playerSpeed);
 
-        // Face towards movement
-        transform.localScale = new Vector3(_movementVector.x > 0 ? -1 : 1, 1, 1);
+        // Head looking up or down
+        _head.localRotation = Quaternion.AngleAxis(movementDirection.y * -_headTwistAmount, Vector3.forward);
+
+        // Looking toward the correct size
+        int newDirection =  movementDirection.x > 0 ? -1 : 1;
+        if (_direction != newDirection) {
+            _direction = newDirection;
+            transform.localScale = new Vector3(_direction * 1.05f, 0.95f, 1);
+        }
+
+        // TODO: This animation shouldn't be procedural
+        transform.localScale = Vector2.Lerp(transform.localScale, new Vector3(_direction, 1, 1), Time.deltaTime * 5);
     }
 }
