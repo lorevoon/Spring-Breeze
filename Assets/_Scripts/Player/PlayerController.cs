@@ -1,16 +1,13 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerController : Singleton<PlayerController>
+public class PlayerController : MonoBehaviour// Singleton<PlayerController>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    // References
+    private PlayerMovement _playerMovement;
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 }

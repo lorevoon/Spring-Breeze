@@ -1,68 +1,37 @@
 using UnityEngine;
+using UnityEngine.Events;
 
+/// <summary>
+/// A Interactor represents a GameObject which can interact with the
+/// player's powers/habilities.
+/// </summary>
 [RequireComponent(typeof(ParticleSystem))]
-public class Interactor : MonoBehaviour
+public abstract class Interactor : MonoBehaviour
 {
+    // Variables
+    [SerializeField] protected EInteraction type;
+    
     // Properties
-    public EInteraction type;
-    public float targetPercent = 10;
+    public EInteraction Type { get => type; }
     
     // Events
-    public event System.Action onInteractionComplete;
+    [Header("Events")]
+    /// <summary>
+    /// OnInteractionStarted is called the first time there is an interaction
+    /// </summary>
+    [SerializeField] protected UnityEvent onInteractionStarted;
+    /// <summary>
+    /// OnInteractionPerformed is called every frame there is an interaction
+    /// </summary>
+    [SerializeField] protected UnityEvent onInteractionPerformed;
+    [SerializeField] protected UnityEvent onInteractionCancelled;
+
+    // Properties
+    protected abstract bool isInteracting { get; }
     
-    // Data
-    public SInteractionData data;
-    
-    // Components
-    ParticleSystem particles;
-    
-    private void Start()
-    {
-        particles = GetComponent<ParticleSystem>();
-        DataLoad();
-    
-        GameManager.Instance.OnSave += DataSave;
-    }
-    
-    // Save System
-    public virtual void DataSave()
-    {
-        SystemSaver.SaveObject(data, gameObject.name + GameManager.Instance.ID);
-    }
-    public virtual void DataLoad()
-    {
-        data = (SInteractionData)SystemSaver.LoadObject(data, gameObject.name + GameManager.Instance.ID);
-        GameManager.Instance.loaded++;
-    }
-    
-    public virtual void Interact(EInteraction type)
-    {
-        // Execute only when the type matches
-        if (data.interacted || type != this.type)
-            return;
-    
-        // If it's completed then proceed with animation or whatever
-        data.interactionPercent += Time.deltaTime;
-        if (data.interactionPercent >= targetPercent)
-        {
-            TransformObject();
-        }
-    
-        // Play particles
-        if (!particles.isPlaying)
-        {
-            particles.Play();
-        }
-    }
-    
-    public virtual void TransformObject()
-    {
-        data.interacted = true;
-    
-        // Call event
-        if(onInteractionComplete != null)
-            onInteractionComplete();
-    
-        DataSave();
-    }
+    /// <summary>
+    /// Interact should be called during every frame of the interaction.
+    /// </summary>
+    /// <param name="type">Type of the interaction</param>
+    public abstract void Interact(EInteraction type);
 }
