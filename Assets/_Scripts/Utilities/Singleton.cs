@@ -1,30 +1,30 @@
 using UnityEngine;
 
-public abstract class Singleton<T> : MonoBehaviour where T : Component
-{
-    public bool IsToBeDestroyed { get; private set; }
-    private static T _instance;
-    public static T Instance
-    {
-        get
-        {
-            if (_instance == null) _instance = FindFirstObjectByType<T>();
-            return _instance;
-        }
-    }
-    
-    protected virtual void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this as T;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Debug.Log("Duplicate " + typeof(T) + " detected. Destroying " + gameObject.name);
+public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
+    public static T Instance { get; private set; }
+    protected virtual void Awake() {
+        if (Instance != null) {
+            Debug.LogWarning("Duplicate " + typeof(T) + " detected. Destroying " + gameObject.name);
             Destroy(gameObject);
-            IsToBeDestroyed = true;
         }
+
+        Instance = this as T;
+    }
+
+    protected virtual void OnApplicationQuit() {
+        Instance = null;
+        Destroy(gameObject);
+    }
+}
+
+/// <summary>
+/// SingletonPersisten will call DontDestroyOnLoad on Awake.
+/// </summary>
+public abstract class SingletonPersistent<T> : Singleton<T> where T : MonoBehaviour
+{
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
     }
 }
