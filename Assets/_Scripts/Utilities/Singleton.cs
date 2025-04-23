@@ -16,15 +16,3 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
         Destroy(gameObject);
     }
 }
-
-/// <summary>
-/// SingletonPersisten will call DontDestroyOnLoad on Awake.
-/// </summary>
-public abstract class SingletonPersistent<T> : Singleton<T> where T : MonoBehaviour
-{
-    protected override void Awake()
-    {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
-}
