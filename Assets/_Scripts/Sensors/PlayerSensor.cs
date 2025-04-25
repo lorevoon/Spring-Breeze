@@ -1,16 +1,9 @@
 using UnityEngine;
 
-public class PlayerSensor : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+public class PlayerSensor : SensorController {
+    protected override bool IsDetection {
+        get {
+            return Vector2.Distance(PlayerController.Instance.transform.position, transform.position) < radius;
+        }
     }
 }

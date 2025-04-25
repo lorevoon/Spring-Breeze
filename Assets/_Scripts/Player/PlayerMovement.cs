@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _headTwistAmount = 10f;
 
     // Input
-    private PlayerInput _input;
     private InputAction _moveAction;
     private Vector2 _movementVector;
     
@@ -53,8 +52,7 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
 
         // Setup input actions
-        _input = GetComponent<PlayerInput>();
-        _moveAction = _input.actions["Move"];
+        _moveAction = PlayerController.Instance.Input.actions["Move"];
 
         // Setup variables
         _playerSpeed = _defaultPlayerSpeed;

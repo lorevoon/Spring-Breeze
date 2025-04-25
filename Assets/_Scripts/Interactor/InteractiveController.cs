@@ -1,16 +1,21 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class InteractiveController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private UnityEvent onInteract;
+    private InputAction interactAction;
+    private PlayerSensor sensor;
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        
+        interactAction = PlayerController.Instance.Input.actions["Interact"];
+
+        interactAction.performed += context => {
+            if (sensor.OnRange) {
+                onInteract?.Invoke();
+            }
+        };
     }
 }
