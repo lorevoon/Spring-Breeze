@@ -14,12 +14,17 @@ public abstract class GrabbableState
     protected GrabbableController grabbable;
 
     /// <summary>
-    /// Shold be called when the state instance is created
+    /// Shold be called when the state instance is created.
     /// </summary>
     protected abstract void StateStart();
     
     /// <summary>
-    /// Should be called on every frame
+    /// Should be called on every frame.
     /// </summary>
     public abstract void StateUpdate();
+
+    /// <summary>
+    /// Called when the grabbable object is clicked.
+    /// </summary>
+    public abstract void OnClick();
 }

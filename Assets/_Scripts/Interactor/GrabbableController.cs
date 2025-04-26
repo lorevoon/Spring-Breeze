@@ -1,7 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(PlayerSensor))]
-public class GrabbableController : MonoBehaviour
+public class GrabbableController : MonoBehaviour, IPointerClickHandler
 {
     /// <summary>
     /// Text to be display in the UI that represents the action you can perform while grabbing an object
@@ -12,6 +14,8 @@ public class GrabbableController : MonoBehaviour
 
     protected virtual void Awake() {
         Sensor = GetComponent<PlayerSensor>();
+
+        _state = new IdleGbState(this);
     }
 
     /// <summary>
@@ -23,8 +27,15 @@ public class GrabbableController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
+    void FixedUpdate() {
         _state.StateUpdate();
+    }
+
+    public void OnPointerClick(PointerEventData eventData) {
+        Debug.Log("Clicked"); 
+        if (eventData.button == PointerEventData.InputButton.Left) {
+              
+            _state.OnClick();
+        }
     }
 }
