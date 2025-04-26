@@ -21,7 +21,7 @@ public class GrabbedGbState : GrabbableState
     public override void StateUpdate() {
         // Orbit the player
         grabbable.transform.position = Vector2.Lerp(grabbable.transform.position, 
-            (Vector2)PlayerController.Instance.transform.position + PlayerController.Instance.RelativeMousePosition.normalized + Vector2.up, 
+            (Vector2)PlayerController.Instance.transform.position + PlayerController.Instance.RelativeMousePosition.normalized * new Vector2(1.5f, 1), 
             Time.deltaTime * 10);
     }
 
@@ -31,7 +31,6 @@ public class GrabbedGbState : GrabbableState
         Debug.Log($"{grabbable.gameObject.name} Dropped");
         grabbable.State = new IdleGbState(grabbable);
 
-        grabbable.transform.position += Vector3.down;
         PlayerController.Instance.grabbed = null;
         _drop.started -= OnDrop;
     }
