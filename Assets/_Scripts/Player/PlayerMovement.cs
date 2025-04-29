@@ -8,11 +8,8 @@ public class PlayerMovement : MonoBehaviour
     // Parameters
     [Header("Movement")]
     [SerializeField] private float _defaultPlayerSpeed = 1f;
-    private float _playerSpeed;
+    public float PlayerSpeed { get; private set; }
     [SerializeField] private float _movementSmooth = 2f;
-    [Header("Animations")]
-    [SerializeField] private Transform _head;
-    [SerializeField] private float _headTwistAmount = 10f;
 
     // Input
     private InputAction _moveAction;
@@ -20,63 +17,45 @@ public class PlayerMovement : MonoBehaviour
     
     // Components
     private Rigidbody2D rb;
-    private Animator anim;
-
-    // Animation
-    private float _direction = 1;
 
     // Properties
     /// <summary>
     /// Gets the magnitude of the player's velocity in a range of [0,1]
     /// </summary>
     public Vector2 movementDirection {
-        get => _movementVector / _playerSpeed;
+        get => _movementVector / PlayerSpeed;
     }
 
     public bool isMoving {
-        get => _movementVector != Vector2.zero;
+        get => _movementVector.magnitude >= 0.3f;
     }
 
     /// <summary>
     /// Multiplies the default player speed. Set to 1 to reset speed to default value.
     /// </summary>
     public float playerSpeedMultiplier {
-        get => _playerSpeed /  _defaultPlayerSpeed;
-        set => _playerSpeed = _defaultPlayerSpeed * value;
+        get => PlayerSpeed / _defaultPlayerSpeed;
+        set => PlayerSpeed = _defaultPlayerSpeed * value;
     }
 
     void Awake()
     {
         // Setup components
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
 
         // Setup input actions
         _moveAction = PlayerController.Instance.Input.actions["Move"];
 
         // Setup variables
-        _playerSpeed = _defaultPlayerSpeed;
+        PlayerSpeed = _defaultPlayerSpeed;
     }
 
     void FixedUpdate()
     {
         // Smooth out movement
-        _movementVector = Vector2.Lerp(_movementVector, _moveAction.ReadValue<Vector2>() * _playerSpeed, 
+        _movementVector = Vector2.Lerp(_movementVector, _moveAction.ReadValue<Vector2>() * PlayerSpeed, 
             Time.fixedDeltaTime * _movementSmooth);
         rb.linearVelocity = _movementVector;
-        anim.SetFloat("Movement", Mathf.Abs(_movementVector.x) / _playerSpeed);
-
-        // Head looking up or down
-        _head.localRotation = Quaternion.AngleAxis(movementDirection.y * -_headTwistAmount, Vector3.forward);
-
-        // Looking toward the correct size
-        int newDirection =  movementDirection.x > 0 ? -1 : 1;
-        if (_direction != newDirection) {
-            _direction = newDirection;
-            transform.localScale = new Vector3(_direction * 1.05f, 0.95f, 1);
-        }
-
-        // TODO: This animation shouldn't be procedural
-        transform.localScale = Vector2.Lerp(transform.localScale, new Vector3(_direction, 1, 1), Time.deltaTime * 5);
+        
     }
 }

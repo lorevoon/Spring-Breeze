@@ -11,9 +11,11 @@ public class GrabbableController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private string _interactionAlias;
     private GrabbableState _state;
     public PlayerSensor Sensor { get; private set; }
+    public Animator Anim { get; private set; }
 
     protected virtual void Awake() {
         Sensor = GetComponent<PlayerSensor>();
+        Anim = GetComponent<Animator>();
 
         _state = new IdleGbState(this);
     }
