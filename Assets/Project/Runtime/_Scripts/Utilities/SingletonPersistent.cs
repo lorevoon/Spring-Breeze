@@ -1,13 +1,15 @@
 using UnityEngine;
 
-/// <summary>
-/// SingletonPersisten will call DontDestroyOnLoad on Awake.
-/// </summary>
-public abstract class SingletonPersistent<T> : Singleton<T> where T : MonoBehaviour
-{
-    protected override void Awake()
+namespace SB.Runtime {
+    /// <summary>
+    /// SingletonPersisten will call DontDestroyOnLoad on Awake.
+    /// </summary>
+    public abstract class SingletonPersistent<T> : Singleton<T> where T : MonoBehaviour
     {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
+        protected override void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }

@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
 
-public enum EInteraction
-{
-    Water,
-    Light
+namespace SB.Runtime {
+    public enum EInteraction
+    {
+        Water,
+        Light
+    }
 }

@@ -2,20 +2,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class InteractiveController : MonoBehaviour
-{
-    [SerializeField] private UnityEvent onInteract;
-    private InputAction interactAction;
-    private PlayerSensor sensor;
-
-    void Awake()
+namespace SB.Runtime {
+    public class InteractiveController : MonoBehaviour
     {
-        interactAction = PlayerController.Instance.Input.actions["Interact"];
+        [SerializeField] private UnityEvent onInteract;
+        private InputAction interactAction;
+        private PlayerSensor sensor;
 
-        interactAction.performed += context => {
-            if (sensor.OnRange) {
-                onInteract?.Invoke();
-            }
-        };
+        void Awake()
+        {
+            interactAction = PlayerController.Instance.Input.actions["Interact"];
+
+            interactAction.performed += context => {
+                if (sensor.OnRange) {
+                    onInteract?.Invoke();
+                }
+            };
+        }
     }
 }

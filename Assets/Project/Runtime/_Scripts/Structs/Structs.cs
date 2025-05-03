@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public struct SInteractionTaskData
-{
-    public bool interacted;
-    public float interactionTime;
-}
-
-public struct SFlowerData
-{
-    public bool bloomed;
-    public int style;
-    public void FlowerData(bool bloomed = false, int style = 0)
+namespace SB.Runtime {
+    public struct SInteractionTaskData
     {
-        this.bloomed = bloomed;
-        this.style = style;
+        public bool interacted;
+        public float interactionTime;
+    }
+
+    public struct SFlowerData
+    {
+        public bool bloomed;
+        public int style;
+        public void FlowerData(bool bloomed = false, int style = 0)
+        {
+            this.bloomed = bloomed;
+            this.style = style;
+        }
     }
 }
