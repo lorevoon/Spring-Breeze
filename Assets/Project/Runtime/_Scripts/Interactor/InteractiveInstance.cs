@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace SB.Runtime
 {
@@ -22,6 +21,7 @@ namespace SB.Runtime
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            // Trigger interaction when available to be interacted with
             if (sensor.OnRange && CanInteract) {
                 OnInteract();
             }

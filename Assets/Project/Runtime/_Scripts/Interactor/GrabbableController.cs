@@ -9,10 +9,12 @@ namespace SB.Runtime {
         /// </summary>
         [SerializeField] private string _interactionAlias;
         private GrabbableState _state;
-        public Animator Anim { get; private set; }
+        private Animator _anim;
 
         protected override void Awake() {
-            Anim = GetComponent<Animator>();
+            base.Awake();
+
+            _anim = GetComponent<Animator>();
 
             // TODO: Not always the first
             _state = new IdleGbState(this);
@@ -27,33 +29,36 @@ namespace SB.Runtime {
             }
         }
 
-        public override bool CanInteract => PlayerController.Instance.Grabbed == this;
+        public override bool CanInteract => PlayerController.Instance.Grabbed == null;
 
-        void FixedUpdate() {
+        private void FixedUpdate() {
             _state.StateUpdate();
         }
 
         protected override void OnInteract()
         {
+            Debug.Log("Grab");
             PlayerController.Instance.Grabbed = this;
             if (PlayerController.Instance.Grabbed == this) {
                 State = new GrabbedGbState(this);
+                _anim.SetTrigger("Grab");
             }
         }
 
         /// <summary>
-        /// Interacts with an InteractiveInstance
+        /// Called when there is an interaction input.
         /// </summary>
-        /// <param name="interaction">Interactive instance to interact with</param>
+        /// <param name="interaction">Interactive instance to interact with. Can be null.</param>
         public abstract void InteractWith(InteractiveInstance interaction);
 
         /// <summary>
         /// Called when the object is dropped.
         /// </summary>
-        public virtual void OnDrop() {
+        public virtual void Drop() {
+            
+            _anim.SetTrigger("Drop");
+            PlayerController.Instance.Grabbed = null;
             State = new IdleGbState(this);
         }
-
-        
     }
 }

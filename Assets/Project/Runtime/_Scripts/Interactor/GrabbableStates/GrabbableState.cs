@@ -19,13 +19,8 @@ namespace SB.Runtime {
         protected abstract void StateStart();
         
         /// <summary>
-        /// Should be called on every frame.
+        /// Called along with physics updates.
         /// </summary>
         public abstract void StateUpdate();
-
-        /// <summary>
-        /// Called when the grabbable object is clicked.
-        /// </summary>
-        public abstract void OnInteractWith(InteractiveInstance other);
     }
 }

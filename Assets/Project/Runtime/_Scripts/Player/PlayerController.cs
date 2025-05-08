@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace SB.Runtime {
+    [RequireComponent(typeof(PlayerInput))]
     public class PlayerController : Singleton<PlayerController>
     {
         // References
@@ -10,17 +11,19 @@ namespace SB.Runtime {
         // Input
         public PlayerInput Input { get; private set; }
         private InputAction _cursorPosition;
+        private InputAction _interact;
+        private InputAction _drop;
 
         // Grabbing
-        private GrabbableController _grabbed;
+        private GrabbableController _grabbed = null;
         /// <summary>
         /// The GrabbableController of the object the player holds on his hand. Can be
-        /// modified only when it's null.
+        /// modified only when it's null, but it can also be set to null.
         /// </summary>
         public GrabbableController Grabbed {
             get => _grabbed;
             set {
-                if (_grabbed == null) {
+                if (_grabbed == null || value == null) {
                     _grabbed = value;
                 }
             }
@@ -50,14 +53,37 @@ namespace SB.Runtime {
 
         override protected void Awake() {
             base.Awake();
+            
+            // Components
             _playerMovement = GetComponent<PlayerMovement>();
             _anim = GetComponent<Animator>();
-
             Input = GetComponent<PlayerInput>();
+
+            // Input setup
             _cursorPosition = Input.actions["Cursor"];
+            _interact = Input.actions["Grab"];
+            _drop = Input.actions["Drop"];
+
+            // Input event calls
+            _interact.started += context => {
+                Collider2D c = Physics2D.OverlapPoint(MousePosition);
+                if (c != null && c.TryGetComponent(out InteractiveInstance i)) {
+                    Debug.Log("interact found");
+                    if (i.CanInteract){
+                        _grabbed?.InteractWith(i);
+                        Debug.Log("interacted");
+                    }
+                }
+                else {
+                    _grabbed?.InteractWith(null);
+                    Debug.Log("interact not found");
+                }
+            };
+            _drop.started += context => _grabbed?.Drop();
         }
 
         private void FixedUpdate() {
+            // Movement animations
             if (_playerMovement.isMoving) {
                 PointTowards(_playerMovement.movementDirection);
                 _anim.SetFloat("Movement", Mathf.Abs(_playerMovement.movementDirection.x));
@@ -68,7 +94,8 @@ namespace SB.Runtime {
         }
 
         /// <summary>
-        /// Makes the player look towards a given direction.
+        /// Makes the player look towards a given direction.<br/>
+        /// The player will flip and point its head toward the desired direction.
         /// </summary>
         /// <param name="direction">Vector pointing in the desired direction</param>
         private void PointTowards(Vector2 direction) {
