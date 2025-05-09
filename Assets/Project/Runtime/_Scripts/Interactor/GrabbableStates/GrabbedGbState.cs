@@ -11,7 +11,7 @@ namespace SB.Runtime {
         private InputAction _action;
 
         protected override void StateStart() {
-            PlayerController.Instance.grabbed = grabbable;
+            PlayerController.Instance.Grabbed = grabbable;
 
             _action = PlayerController.Instance.Input.actions["Grab"];
             _drop = PlayerController.Instance.Input.actions["Drop"];
@@ -31,15 +31,16 @@ namespace SB.Runtime {
                 Time.deltaTime * 10);
         }
 
-        public override void OnClick() {}
+        public override void OnInteractWith(InteractiveInstance other) {}
 
         private void OnDrop(InputAction.CallbackContext context) {
             Debug.Log($"{grabbable.gameObject.name} Dropped");
-            grabbable.State = new IdleGbState(grabbable);
+            // FIXME
+            //grabbable.State = new IdleGbState(grabbable);
 
             grabbable.Anim.SetTrigger("Drop");
 
-            PlayerController.Instance.grabbed = null;
+            PlayerController.Instance.Grabbed = null;
             _drop.started -= OnDrop;
         }
 
@@ -50,11 +51,12 @@ namespace SB.Runtime {
             }
 
             Debug.Log($"{grabbable.gameObject.name} Action");
-            grabbable.State = new IdleGbState(grabbable);
+            // FIXME
+            //grabbable.State = new IdleGbState(grabbable);
 
             grabbable.Anim.SetTrigger("Drop");
 
-            PlayerController.Instance.grabbed = null;
+            PlayerController.Instance.Grabbed = null;
 
             grabbable.transform.DOMove(PlayerController.Instance.MousePosition, 0.25f).SetEase(Ease.Linear);
 

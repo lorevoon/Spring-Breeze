@@ -10,10 +10,11 @@ namespace SB.Runtime {
 
         public override void StateUpdate() {}
 
-        public override void OnClick() {
+        public override void OnInteractWith(InteractiveInstance other) {
             // Set the state to grabbed when grabbed
-            if (PlayerController.Instance.grabbed == null && grabbable.GetComponent<PlayerSensor>().OnRange) {
-                grabbable.State = new GrabbedGbState(grabbable);
+            if (PlayerController.Instance.Grabbed == null && grabbable.GetComponent<PlayerSensor>().OnRange) {
+                // FIXME
+                //grabbable.State = new GrabbedGbState(grabbable);
             }
         }
     }

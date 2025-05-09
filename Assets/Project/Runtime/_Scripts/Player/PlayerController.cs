@@ -12,7 +12,19 @@ namespace SB.Runtime {
         private InputAction _cursorPosition;
 
         // Grabbing
-        public GrabbableController grabbed;
+        private GrabbableController _grabbed;
+        /// <summary>
+        /// The GrabbableController of the object the player holds on his hand. Can be
+        /// modified only when it's null.
+        /// </summary>
+        public GrabbableController Grabbed {
+            get => _grabbed;
+            set {
+                if (_grabbed == null) {
+                    _grabbed = value;
+                }
+            }
+        }
         private Animator _anim;
 
         // Animation
@@ -50,8 +62,8 @@ namespace SB.Runtime {
                 PointTowards(_playerMovement.movementDirection);
                 _anim.SetFloat("Movement", Mathf.Abs(_playerMovement.movementDirection.x));
             }
-            else if (grabbed != null) {
-                PointTowards((grabbed.transform.position - transform.position).normalized);
+            else if (_grabbed != null) {
+                PointTowards((_grabbed.transform.position - transform.position).normalized);
             }
         }
 

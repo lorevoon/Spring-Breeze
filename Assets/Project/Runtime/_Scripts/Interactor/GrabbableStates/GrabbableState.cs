@@ -26,6 +26,6 @@ namespace SB.Runtime {
         /// <summary>
         /// Called when the grabbable object is clicked.
         /// </summary>
-        public abstract void OnClick();
+        public abstract void OnInteractWith(InteractiveInstance other);
     }
 }
