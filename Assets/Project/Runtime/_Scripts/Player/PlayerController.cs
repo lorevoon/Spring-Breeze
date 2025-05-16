@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,22 @@ namespace SB.Runtime {
         private InputAction _cursorPosition;
         private InputAction _interact;
         private InputAction _drop;
+
+        // Interaction
+        [Header("Interaction")]
+        [SerializeField] private float interactionRange = 5f;
+        private IInteractive _interactive;
+        private IInteractive Interactive {
+            get => _interactive;
+            set {
+                if (_interactive != value)
+                {
+                    _interactive?.SetHighlight(false);
+                    _interactive = value;
+                    _interactive?.SetHighlight(true);
+                }
+            }
+        }
 
         // Grabbing
         private GrabbableController _grabbed = null;
@@ -41,7 +58,7 @@ namespace SB.Runtime {
         /// Gets the position of the mouse relative to the player.
         /// </summary>
         public Vector2 RelativeMousePosition {
-            get => MousePosition - (Vector2) transform.position;
+            get => MousePosition - (Vector2)transform.position;
         }
 
         /// <summary>
@@ -51,9 +68,10 @@ namespace SB.Runtime {
             get => Camera.main.ScreenToWorldPoint(_cursorPosition.ReadValue<Vector2>());
         }
 
-        override protected void Awake() {
+        override protected void Awake()
+        {
             base.Awake();
-            
+
             // Components
             _playerMovement = GetComponent<PlayerMovement>();
             _anim = GetComponent<Animator>();
@@ -61,38 +79,44 @@ namespace SB.Runtime {
 
             // Input setup
             _cursorPosition = Input.actions["Cursor"];
-            _interact = Input.actions["Grab"];
+            _interact = Input.actions["Interact"];
             _drop = Input.actions["Drop"];
-            // FIXME
-            /*
+
             // Input event calls
-            _interact.started += context => {
-                Collider2D c = Physics2D.OverlapPoint(MousePosition);
-                if (c != null && c.TryGetComponent(out InteractiveInstance i)) {
-                    Debug.Log("interact found");
-                    if (i.CanInteract){
-                        _grabbed?.InteractWith(i);
-                        Debug.Log("interacted");
-                    }
-                }
-                else {
-                    _grabbed?.InteractWith(null);
-                    Debug.Log("interact not found");
+            _interact.started += context =>
+            {
+                Interactive?.OnInteract();
+            };
+
+            _drop.started += context =>
+            {
+                if (_grabbed is DroppableObject)
+                {
+                    (_grabbed as DroppableObject).Drop();
                 }
             };
-            _drop.started += context => _grabbed?.Drop();
-            */
+
+            // TODO: Implement clicking input
         }
 
-        private void FixedUpdate() {
+        private void FixedUpdate()
+        {
             // Movement animations
-            if (_playerMovement.isMoving) {
+            if (_playerMovement.isMoving)
+            {
                 PointTowards(_playerMovement.movementDirection);
                 _anim.SetFloat("Movement", Mathf.Abs(_playerMovement.movementDirection.x));
             }
-            else if (_grabbed != null) {
+            else if (_grabbed != null)
+            {
                 PointTowards((_grabbed.transform.position - transform.position).normalized);
             }
+
+            // Interaction detection
+            CheckInteractions();
+
+            // Grabbing
+            _grabbed?.OrbitPlayer(RelativeMousePosition);
         }
 
         /// <summary>
@@ -114,6 +138,47 @@ namespace SB.Runtime {
 
             // Update direction
             _lastDirection = direction;
+        }
+
+        /// <summary>
+        /// Sets targeted interactivable to the nearest interactable object.
+        /// </summary>
+        private void CheckInteractions() {
+            // Get all interactives
+            // Layer 6 is reserved for interactive instances
+            Collider2D[] detection = Physics2D.OverlapCircleAll(transform.position, interactionRange, 1 << 6);
+
+            // Base case: nothing detected
+            if (detection.Length == 0) {
+                Interactive = null;
+                return;
+            }
+
+            // Base case: only one detected
+            IInteractive nextInteractive = null;
+            if (detection.Length == 1) {
+                nextInteractive = detection[0].GetComponent<IInteractive>();
+                if (nextInteractive.CanInteract) {
+                    Interactive = nextInteractive;
+                }
+                return;
+            }
+
+            // More than one: get closest
+            float maxDist = interactionRange;
+            float nextDist;
+            foreach (Collider2D c in detection) {
+                if (!c.GetComponent<IInteractive>().CanInteract) {
+                    continue;
+                }
+                nextDist = Vector2.Distance(MousePosition, c.transform.position);
+                if (nextDist < maxDist)
+                {
+                    nextInteractive = c.GetComponent<IInteractive>();
+                    maxDist = nextDist;
+                }
+            }
+            Interactive = nextInteractive;
         }
     }
 }

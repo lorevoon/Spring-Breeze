@@ -26,9 +26,9 @@ namespace SB.Runtime {
         
 
         /// <summary>
-        /// Called when there is a mouse click input.
+        /// Called when there is a mouse click input at any point of the screen.
         /// </summary>
-        /// <param name="position">Position where the click takes place.</param>
+        /// <param name="position">Position where the click takes place in Worldspace.</param>
         public virtual void ClickAt(Vector2 position) {
             
         }
