@@ -1,15 +1,14 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace SB.Runtime
 {
-    public class CollectableController : InteractiveInstance
+    public class CollectableController : IInteractive
     {
-        public override bool CanInteract => throw new System.NotImplementedException();
+        [SerializeField] string itemId;
 
-        protected override void OnInteract()
+        void IInteractive.OnInteract()
         {
-            throw new System.NotImplementedException();
+            // TODO: Add to inventory
         }
     }
 }

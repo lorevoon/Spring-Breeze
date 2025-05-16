@@ -20,4 +20,10 @@ namespace SB.Runtime {
             this.style = style;
         }
     }
+
+    public struct SItemData {
+        public string id { get; private set; }
+        public EItemType type { get; private set; }
+        public Sprite sprite { get; private set; }
+    }
 }

@@ -1,64 +1,36 @@
 using UnityEngine;
 
 namespace SB.Runtime {
-    [RequireComponent(typeof(PlayerSensor))]
-    public abstract class GrabbableController : InteractiveInstance
+    public abstract class GrabbableController : MonoBehaviour
     {
         /// <summary>
         /// Text to be display in the UI that represents the action you can perform while grabbing an object
         /// </summary>
         [SerializeField] private string _interactionAlias;
-        private GrabbableState _state;
-        private Animator _anim;
-
-        protected override void Awake() {
-            base.Awake();
-
-            _anim = GetComponent<Animator>();
-
-            // TODO: Not always the first
-            _state = new IdleGbState(this);
-        }
+        
 
         /// <summary>
-        /// Modifies the state of the GrabbableController. Should be provided with a new GrabbableState instance.
+        /// The PlayerController should call the method to make the object orbit the player.
         /// </summary>
-        protected GrabbableState State {
-            set {
-                _state = value;
-            }
-        }
+        /// <param name="relativePos">Relative mouse position to the player in worldspace metrics</param>
+        public void OrbitPlayer(Vector2 relativePos) {
+            Vector2 pos = relativePos.normalized;
+            pos *= Mathf.Log(relativePos.magnitude * 0.5f + 1);
+            pos += relativePos.normalized * 0.5f;
 
-        public override bool CanInteract => PlayerController.Instance.Grabbed == null;
-
-        private void FixedUpdate() {
-            _state.StateUpdate();
+            // Orbit the player
+            transform.position = Vector2.Lerp(transform.position, 
+                (Vector2) PlayerController.Instance.transform.position + pos * new Vector2(1.2f, 0.8f), 
+                Time.deltaTime * 10);
         }
-
-        protected override void OnInteract()
-        {
-            Debug.Log("Grab");
-            PlayerController.Instance.Grabbed = this;
-            if (PlayerController.Instance.Grabbed == this) {
-                State = new GrabbedGbState(this);
-                _anim.SetTrigger("Grab");
-            }
-        }
+        
 
         /// <summary>
-        /// Called when there is an interaction input.
+        /// Called when there is a mouse click input.
         /// </summary>
-        /// <param name="interaction">Interactive instance to interact with. Can be null.</param>
-        public abstract void InteractWith(InteractiveInstance interaction);
-
-        /// <summary>
-        /// Called when the object is dropped.
-        /// </summary>
-        public virtual void Drop() {
+        /// <param name="position">Position where the click takes place.</param>
+        public virtual void ClickAt(Vector2 position) {
             
-            _anim.SetTrigger("Drop");
-            PlayerController.Instance.Grabbed = null;
-            State = new IdleGbState(this);
         }
     }
 }

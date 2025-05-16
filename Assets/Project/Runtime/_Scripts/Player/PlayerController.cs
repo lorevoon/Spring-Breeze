@@ -63,7 +63,8 @@ namespace SB.Runtime {
             _cursorPosition = Input.actions["Cursor"];
             _interact = Input.actions["Grab"];
             _drop = Input.actions["Drop"];
-
+            // FIXME
+            /*
             // Input event calls
             _interact.started += context => {
                 Collider2D c = Physics2D.OverlapPoint(MousePosition);
@@ -80,6 +81,7 @@ namespace SB.Runtime {
                 }
             };
             _drop.started += context => _grabbed?.Drop();
+            */
         }
 
         private void FixedUpdate() {
