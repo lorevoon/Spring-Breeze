@@ -1,22 +1,27 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace SB.Runtime
 {
-    public class DroppableObject : GrabbableController, IInteractive
+    public class DroppableObject : GrabbableController, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
         private Animator _anim;
-
-        public bool CanInteract => PlayerController.Instance.Grabbed == null;
 
         private void Awake() {
             _anim = GetComponent<Animator>();
         }
 
         /// <summary>
-        /// Should be called when the object is grabbed.
+        /// Called when the object is grabbed.
         /// </summary>
-        void IInteractive.OnInteract()
+        public void OnPointerDown(PointerEventData eventData)
         {
+            // Avoid grabbing when something else is grabbed or when it's not on the ground
+            if (PlayerController.Instance.Grabbed != null || !_anim.GetCurrentAnimatorStateInfo(0).IsName("Waiting"))
+            {
+                return;
+            }
+            Debug.Log("HEY");
             PlayerController.Instance.Grabbed = this;
             if (PlayerController.Instance.Grabbed == this)
             {
@@ -31,13 +36,26 @@ namespace SB.Runtime
         public virtual void Drop()
         {
             _anim.SetTrigger("Drop");
-            PlayerController.Instance.Grabbed = null;
+            if (PlayerController.Instance.Grabbed == this)
+            {
+                PlayerController.Instance.Grabbed = null;
+            }
             GetComponent<Collider2D>().enabled = true;
         }
 
         public void SetHighlight(bool highlight)
         {
-            transform.localScale = highlight ? Vector2.one * 1.1f : Vector2.one;
+            transform.Find("Sprite").localScale = highlight ? Vector2.one * 1.1f : Vector2.one;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            SetHighlight(true);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            SetHighlight(false);
         }
     }
 }

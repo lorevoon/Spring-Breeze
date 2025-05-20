@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace SB.Runtime {
@@ -14,6 +15,7 @@ namespace SB.Runtime {
         private InputAction _cursorPosition;
         private InputAction _interact;
         private InputAction _drop;
+        private InputAction _click;
 
         // Interaction
         [Header("Interaction")]
@@ -81,6 +83,7 @@ namespace SB.Runtime {
             _cursorPosition = Input.actions["Cursor"];
             _interact = Input.actions["Interact"];
             _drop = Input.actions["Drop"];
+            _click = Input.actions["Click"];
 
             // Input event calls
             _interact.started += context =>
@@ -96,7 +99,10 @@ namespace SB.Runtime {
                 }
             };
 
-            // TODO: Implement clicking input
+            _click.started += context =>
+            {
+                _grabbed?.ClickAt(MousePosition);
+            };
         }
 
         private void FixedUpdate()
@@ -171,7 +177,7 @@ namespace SB.Runtime {
                 if (!c.GetComponent<IInteractive>().CanInteract) {
                     continue;
                 }
-                nextDist = Vector2.Distance(MousePosition, c.transform.position);
+                nextDist = Vector2.Distance(transform.position, c.transform.position);
                 if (nextDist < maxDist)
                 {
                     nextInteractive = c.GetComponent<IInteractive>();
