@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Grab",
+                    "name": "Click",
                     "type": "Button",
                     "id": "394f755c-c344-4691-a900-c2d554c03c0e",
                     "expectedControlType": "",
@@ -233,7 +233,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Grab",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

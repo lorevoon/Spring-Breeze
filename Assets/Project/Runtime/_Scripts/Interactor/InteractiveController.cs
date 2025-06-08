@@ -1,23 +1,27 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 namespace SB.Runtime {
-    public class InteractiveController : MonoBehaviour
+    public class InteractiveController : IInteractive
     {
         [SerializeField] private UnityEvent onInteract;
-        private InputAction interactAction;
-        private PlayerSensor sensor;
+        [SerializeField] private UnityEvent onHighlighted;
+        [SerializeField] private UnityEvent onUnhighlighted;
 
-        void Awake()
+        public bool CanInteract => true;
+
+        public void OnInteract() => onInteract?.Invoke();
+
+        public void SetHighlight(bool highlight)
         {
-            interactAction = PlayerController.Instance.Input.actions["Interact"];
-
-            interactAction.performed += context => {
-                if (sensor.OnRange) {
-                    onInteract?.Invoke();
-                }
-            };
+            if (highlight)
+            {
+                onHighlighted?.Invoke();
+            }
+            else
+            {
+                onUnhighlighted?.Invoke();
+            }
         }
     }
 }

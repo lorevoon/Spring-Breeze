@@ -7,4 +7,10 @@ namespace SB.Runtime {
         Water,
         Light
     }
+
+    public enum EItemType {
+        Default,
+        Key,
+        Seed
+    }
 }
