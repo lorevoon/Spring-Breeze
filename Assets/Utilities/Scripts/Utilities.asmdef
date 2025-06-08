@@ -1,10 +1,7 @@
 {
-    "name": "Runtime",
-    "rootNamespace": "SB.Runtime",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:3837c6c6233f93e4993b132cad323b1b"
-    ],
+    "name": "Utilities",
+    "rootNamespace": "Utilities",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

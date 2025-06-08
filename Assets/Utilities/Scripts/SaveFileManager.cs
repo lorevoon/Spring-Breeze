@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.IO;
 
-namespace SB.Runtime {
+namespace Utilities {
     /// <summary>
     /// Includes methods to load and save data.<br/>
     /// Saves data in json files.
     /// </summary>
-    public class SaveFileManager
+    public static class SaveFileManager
     {
         /// <summary>
         /// Saves data to a json file.

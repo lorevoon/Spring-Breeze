@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SB.Runtime {
+namespace Utilities {
     /// <summary>
     /// SingletonPersisten will call DontDestroyOnLoad on Awake.
     /// </summary>
