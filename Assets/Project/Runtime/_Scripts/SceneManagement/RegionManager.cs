@@ -1,20 +1,40 @@
+using System;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utilities;
 
 namespace SB.Runtime.SceneManagement
 {
     public class RegionManager : Singleton<RegionManager>
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        private ZoneController _loadedZone;
+
+        public event Action onZoneLoadStart;
+        public event Action onZoneLoadEnd;
+
+        public void LoadZone(string id)
         {
-        
+            LoadZoneAsync(id).GetAwaiter();
         }
 
-        // Update is called once per frame
-        void Update()
+        private async Task LoadZoneAsync(string id)
         {
-        
+            using (new EventStartEndDisposable(onZoneLoadStart, onZoneLoadEnd))
+            {
+                // Save zone data
+                _loadedZone.SaveZoneData().GetAwaiter();
+
+                // Load the scene
+                await SceneManager.LoadSceneAsync(id, LoadSceneMode.Additive);
+
+                // Set new zone as active scene
+                Scene newZone = SceneManager.GetSceneByName(id);
+                SceneManager.SetActiveScene(newZone);
+
+                // Unload last scene
+                await SceneManager.UnloadSceneAsync(id);
+            }
         }
     }
 }

@@ -1,19 +1,14 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace SB.Runtime.SceneManagement
 {
     public class ZoneController : MonoBehaviour
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        // TODO: Implement save system
+        public async Task SaveZoneData()
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            await Task.Delay(1009);
         }
     }
 }

@@ -2,7 +2,8 @@
     "name": "SceneManagement",
     "rootNamespace": "SB.Runtime.SceneManagement",
     "references": [
-        "GUID:3837c6c6233f93e4993b132cad323b1b"
+        "GUID:3837c6c6233f93e4993b132cad323b1b",
+        "GUID:73f920dc3ce993741bff0640de24e002"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
