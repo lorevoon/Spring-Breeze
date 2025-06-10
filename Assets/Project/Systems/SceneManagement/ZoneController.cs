@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace SB.Runtime.SceneManagement
+namespace SB.SceneManagement
 {
     public class ZoneController : MonoBehaviour
     {

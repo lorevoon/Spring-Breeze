@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
 
-namespace SB.Runtime.SceneManagement
+namespace SB.SceneManagement
 {
     public class TransitionController : MonoBehaviour
     {

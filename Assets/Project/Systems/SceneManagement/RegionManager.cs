@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
 
-namespace SB.Runtime.SceneManagement
+namespace SB.SceneManagement
 {
     public class RegionManager : Singleton<RegionManager>
     {
