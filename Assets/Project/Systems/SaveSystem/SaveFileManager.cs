@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.IO;
 
-namespace Utilities {
+namespace SB.SaveSystem {
     /// <summary>
     /// Includes methods to load and save data.<br/>
     /// Saves data in json files.

@@ -1,11 +1,7 @@
 {
-    "name": "Runtime",
-    "rootNamespace": "SB.Runtime",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:3837c6c6233f93e4993b132cad323b1b",
-        "GUID:73f920dc3ce993741bff0640de24e002"
-    ],
+    "name": "SaveSystem",
+    "rootNamespace": "SB.SaveSystem",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
