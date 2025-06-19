@@ -1,40 +1,38 @@
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
+using Unity.Cinemachine;
 
 namespace SB.SceneManagement
 {
     public class RegionManager : Singleton<RegionManager>
     {
-        private ZoneController _loadedZone;
+        [SerializeField] private string _loadedZone;
+        [SerializeField] private CinemachineConfiner2D _confiner2D;
 
-        public event Action onZoneLoadStart;
-        public event Action onZoneLoadEnd;
-
-        public void LoadZone(string id)
+        public void LoadZone(string id, ZoneController controller)
         {
-            LoadZoneAsync(id).GetAwaiter();
+            LoadZoneAsync(id, controller).GetAwaiter();
         }
 
-        private async Task LoadZoneAsync(string id)
+        private async Task LoadZoneAsync(string nextZone, ZoneController controller)
         {
-            using (new EventStartEndDisposable(onZoneLoadStart, onZoneLoadEnd))
+            // Load next zone
+            await SceneManager.LoadSceneAsync(nextZone, LoadSceneMode.Additive);
+
+            // Camera transition
+            _confiner2D.BoundingShape2D = controller.GetComponent<Collider2D>();
+            await Task.Delay(500);
+
+            // Unload current Zone
+            if (_loadedZone != string.Empty)
             {
-                // Save zone data
-                _loadedZone.SaveZoneData().GetAwaiter();
-
-                // Load the scene
-                await SceneManager.LoadSceneAsync(id, LoadSceneMode.Additive);
-
-                // Set new zone as active scene
-                Scene newZone = SceneManager.GetSceneByName(id);
-                SceneManager.SetActiveScene(newZone);
-
-                // Unload last scene
-                await SceneManager.UnloadSceneAsync(id);
+                await SceneManager.UnloadSceneAsync(_loadedZone);
             }
+
+            // Set new loaded zone
+            _loadedZone = nextZone;
         }
     }
 }
