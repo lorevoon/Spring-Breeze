@@ -662,6 +662,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6866981057958598208, guid: 7f3f3e08966f2466d866bfe584df5190, type: 3}
+      propertyPath: _defaultPlayerSpeed
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -910,7 +914,7 @@ MonoBehaviour:
   m_SpriteShape: {fileID: 11400000, guid: 0dfd44256676b104b8871c27bed5628a, type: 2}
   m_FillPixelPerUnit: 30
   m_StretchTiling: 1
-  m_SplineDetail: 16
+  m_SplineDetail: 8
   m_AdaptiveUV: 1
   m_StretchUV: 0
   m_WorldSpaceUV: 0

@@ -18,6 +18,9 @@ namespace SB.SceneManagement
 
         private async Task LoadZoneAsync(string nextZone, ZoneController controller)
         {
+            // Don't reload if not necessary
+            if (nextZone == _loadedZone) return;
+
             // Load next zone
             await SceneManager.LoadSceneAsync(nextZone, LoadSceneMode.Additive);
 

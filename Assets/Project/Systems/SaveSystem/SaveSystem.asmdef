@@ -1,7 +1,9 @@
 {
     "name": "SaveSystem",
     "rootNamespace": "SB.SaveSystem",
-    "references": [],
+    "references": [
+        "GUID:3837c6c6233f93e4993b132cad323b1b"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
