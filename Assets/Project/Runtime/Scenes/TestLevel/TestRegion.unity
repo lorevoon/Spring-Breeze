@@ -824,7 +824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0f37aceeb79b04d9dbc18b3c0dea1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadedZone: 
+  _loadedZone: TestRegion_A
   _confiner2D: {fileID: 763436399}
 --- !u!4 &1032198289
 Transform:

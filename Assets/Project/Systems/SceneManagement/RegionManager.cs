@@ -11,6 +11,15 @@ namespace SB.SceneManagement
         [SerializeField] private string _loadedZone;
         [SerializeField] private CinemachineConfiner2D _confiner2D;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            if (_loadedZone != string.Empty)
+            {
+                SceneManager.LoadScene(_loadedZone, LoadSceneMode.Additive);            
+            }
+        }
+
         public void LoadZone(string id, ZoneController controller)
         {
             LoadZoneAsync(id, controller).GetAwaiter();
