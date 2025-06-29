@@ -24,5 +24,10 @@ namespace SB.SaveSystem
                 this.saveData = saveData;
             }
         }
+
+        /// <summary>
+        /// Must be called during Awake
+        /// </summary>
+        protected void UpdateData();
     }
 }

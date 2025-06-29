@@ -18,9 +18,7 @@ namespace SB.SaveSystem {
         {
             string json = JsonUtility.ToJson(obj);
 
-            path.Replace(' ', '_');
             File.WriteAllText($"{Application.persistentDataPath}/{path}.json", json);
-
             if (Debug.isDebugBuild)
                 Debug.Log($"<color=#ffff00><b>SaveSystem - Savet</b></color>\n" +
                         $"Saving data at <color=#00ff00>{path}</color> || Data stored: <color=#00ff00>{json}</color>");
@@ -30,31 +28,24 @@ namespace SB.SaveSystem {
         /// Loads data from a json file
         /// </summary>
         /// <typeparam name="T">Data type to save</typeparam>
-        /// <param name="obj">Default object data, if the file is not found a new file is created</param>
+        /// <param name="obj">Reference to object data, if the file is not found a new file is created with current data</param>
         /// <param name="path">Path of the savefile relative to Application.persistentDataPath</param>
         /// <returns>Data loaded from the file</returns>
-        public static object Load<T>(T obj, string path)
+        public static void Load<T>(ref T obj, string path)
         {
-            T loadedData = obj;
-            path.Replace(' ', '_');
-            if (File.Exists($"{Application.persistentDataPath}/{path}.json"))
-            {
-                string json = File.ReadAllText($"{Application.persistentDataPath}/{path}.json");
-                loadedData = JsonUtility.FromJson<T>(json);
-
+            if (!File.Exists($"{Application.persistentDataPath}/{path}.json")) {
                 if (Debug.isDebugBuild)
                     Debug.Log($"<color=#ffff00><b>SaveSystem - Load</b></color>\n " +
-                            $"Loading data from: <color=#00ff00>{Application.persistentDataPath}/{path}.json</color> || Data loaded: <color=#00ff00>{json}</color>");
-            }
-            else
-            {
-                if (Debug.isDebugBuild)
-                    Debug.Log($"<color=#ffff00><b>SaveSystem - LoadObject</b></color>\n " +
-                            $"<b>New file </b> created at: <color=#00ff00>{Application.persistentDataPath}/{path}.json</color>");
+                            $"<b>New file </b> created at: <color=#0000ff>{Application.persistentDataPath}/{path}.json</color>");
                 Save(obj, path);
             }
 
-            return loadedData;
+            string json = File.ReadAllText($"{Application.persistentDataPath}/{path}.json");
+            obj = JsonUtility.FromJson<T>(json);
+
+            if (Debug.isDebugBuild)
+                Debug.Log($"<color=#ffff00><b>SaveSystem - Load</b></color>\n " +
+                        $"Loading data from: <color=#0000ff>{Application.persistentDataPath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
         }
     }
 }
