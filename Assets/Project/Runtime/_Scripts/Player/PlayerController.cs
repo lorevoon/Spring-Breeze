@@ -1,12 +1,20 @@
-using System.Collections.Generic;
+using SB.SaveSystem;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Utilities;
 
 namespace SB.Runtime {
+
+    [System.Serializable]
+    public class PlayerData : ISaveable
+    {
+        public string id { get; set; }
+        public Vector3 pos;
+    }
+
+
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerController : Singleton<PlayerController>
+    public class PlayerController : Singleton<PlayerController>, IBind<PlayerData>
     {
         // References
         private PlayerMovement _playerMovement;
@@ -71,6 +79,10 @@ namespace SB.Runtime {
             get => Camera.main.ScreenToWorldPoint(_cursorPosition.ReadValue<Vector2>());
         }
 
+        //FIXME
+        public string id { get => gameObject.name; set => gameObject.name = value; }
+        [SerializeField] private PlayerData _data;
+
         override protected void Awake()
         {
             base.Awake();
@@ -124,6 +136,9 @@ namespace SB.Runtime {
 
             // Grabbing
             _grabbed?.OrbitPlayer(RelativeMousePosition);
+
+            //FIXME
+            _data.pos = transform.position;
         }
 
         /// <summary>
@@ -186,6 +201,11 @@ namespace SB.Runtime {
                 }
             }
             Interactive = nextInteractive;
+        }
+
+        public void Bind(PlayerData data)
+        {
+            _data = data;
         }
     }
 }

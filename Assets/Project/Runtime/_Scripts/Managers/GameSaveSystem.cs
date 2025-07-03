@@ -3,19 +3,20 @@ using SB.SaveSystem;
 
 namespace SB.Runtime
 {
-    public struct GameData
+    [System.Serializable]
+    public class GameData
     {
-        public Vector3 playerPos { get; set; }
-        public string loadedZone { get; set; }
+        public PlayerData playerData;
+        public string loadedZone;
     }
 
-    public class GameSaveSystem : Saver<GameData>
+    public class GameSaveSystem : MonoBehaviour
     {
-        protected override void Awake()
-        {
-            base.Awake();
+        [SerializeField] private GameData data;
 
-            Load();
+        void Start()
+        {
+            SaveFileManager.Instance.Bind<PlayerController, PlayerData>(data.playerData);
         }
     }
 }

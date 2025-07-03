@@ -1,26 +1,39 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Utilities;
-
+/*
 namespace SB.SaveSystem
 {
-    public abstract class Saver<T> : Singleton<Saver<T>>
+    public abstract class Saver : Singleton<Saver> 
     {
-        protected string relativeDataPath;
-        protected T dataCollection;
-
-        public void Bind<TData>(ISaveable<TData> saveable, ref TData data)
+        public void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
         {
-            saveable.Bind(ref data);
+            var entity = FindObjectsByType<T>(FindObjectsSortMode.None).FirstOrDefault();
+
+            if (entity != null)
+            {
+                if (data == null)
+                {
+                    data = new TData { id = entity.id };
+                }
+                entity.Bind(data);
+            }
         }
 
-        public void Save()
+        void Bind<T, TData>(List<TData> datas) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
         {
-            SaveFileManager.Save(dataCollection, relativeDataPath);
-        }
+            var entities = FindObjectsByType<T>(FindObjectsSortMode.None);
 
-        public void Load()
-        {
-            SaveFileManager.Load(ref dataCollection, relativeDataPath);
+            foreach (var entity in entities)
+            {
+                var data = datas.FirstOrDefault(d => d.id == entity.id);
+                if (data == null)
+                {
+                    data = new TData { id = entity.id };
+                    datas.Add(data);
+                }
+            }
         }
     }
-}
+}*/
