@@ -206,6 +206,7 @@ namespace SB.Runtime {
         public void Bind(PlayerData data)
         {
             _data = data;
+            transform.position = _data.pos;
         }
     }
 }

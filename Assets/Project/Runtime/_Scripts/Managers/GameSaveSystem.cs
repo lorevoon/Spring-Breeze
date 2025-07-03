@@ -16,7 +16,17 @@ namespace SB.Runtime
 
         void Start()
         {
+            data = SaveFileManager.Instance.Load(data, "./");
             SaveFileManager.Instance.Bind<PlayerController, PlayerData>(data.playerData);
+            
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SaveFileManager.Instance.Save(data, "./");
+            }
         }
     }
 }

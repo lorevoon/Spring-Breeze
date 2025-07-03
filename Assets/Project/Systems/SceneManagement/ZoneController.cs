@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
+using SB.SaveSystem;
 
 namespace SB.SceneManagement
 {

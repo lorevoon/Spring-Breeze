@@ -34,13 +34,13 @@ namespace SB.SaveSystem {
         /// <param name="obj">Reference to object data, if the file is not found a new file is created with current data</param>
         /// <param name="path">Path of the savefile relative to Application.persistentDataPath</param>
         /// <returns>Data loaded from the file</returns>
-        public void Load<T>(ref T obj, string path)
+        public T Load<T>(T obj, string path)
         {
             if (!File.Exists($"{Application.persistentDataPath}/{path}.json"))
             {
                 if (Debug.isDebugBuild)
                     Debug.Log($"<color=#ffff00><b>SaveSystem - Load</b></color>\n " +
-                            $"<b>New file </b> created at: <color=#0000ff>{Application.persistentDataPath}/{path}.json</color>");
+                            $"<b>New file </b> created at: <color=#00ff00>{Application.persistentDataPath}/{path}.json</color>");
                 Save(obj, path);
             }
 
@@ -49,7 +49,9 @@ namespace SB.SaveSystem {
 
             if (Debug.isDebugBuild)
                 Debug.Log($"<color=#ffff00><b>SaveSystem - Load</b></color>\n " +
-                        $"Loading data from: <color=#0000ff>{Application.persistentDataPath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
+                        $"Loading data from: <color=#00ff00>{Application.persistentDataPath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
+
+            return obj;
         }
         
         public void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
