@@ -1,5 +1,6 @@
 using UnityEngine;
 using SB.SaveSystem;
+using SB.SceneManagement;
 
 namespace SB.Runtime
 {
@@ -7,7 +8,6 @@ namespace SB.Runtime
     public class GameData
     {
         public PlayerData playerData;
-        public string loadedZone;
     }
 
     public class GameSaveSystem : MonoBehaviour
@@ -18,7 +18,6 @@ namespace SB.Runtime
         {
             data = SaveFileManager.Instance.Load(data, "./");
             SaveFileManager.Instance.Bind<PlayerController, PlayerData>(data.playerData);
-            
         }
 
         void Update()

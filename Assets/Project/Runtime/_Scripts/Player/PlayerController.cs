@@ -8,7 +8,7 @@ namespace SB.Runtime {
     [System.Serializable]
     public class PlayerData : ISaveable
     {
-        public string id { get; set; }
+        [field: SerializeField] public string id { get; set; }
         public Vector3 pos;
     }
 

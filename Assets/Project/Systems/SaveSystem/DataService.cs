@@ -1,17 +1,18 @@
 using UnityEngine;
 using System.IO;
-using System.Collections.Generic;
 using Utilities;
-using System.Linq;
+using System;
 
-namespace SB.SaveSystem {
-    /// <summary>
-    /// Includes methods to load and save data.<br/>
-    /// Saves data in json files.
-    /// </summary>
-    public class SaveFileManager : SingletonPersistent<SaveFileManager>
+namespace SB.SaveSystem
+{
+    internal class DataService
     {
-        [SerializeField] private int _fileId = 0;
+        [SerializeField] private int _fileId;
+
+        public DataService(int fileId)
+        {
+            _fileId = fileId;
+        }
 
         /// <summary>
         /// Saves data to a json file.
@@ -54,35 +55,6 @@ namespace SB.SaveSystem {
                         $"Loading data from: <color=#00ff00>{Application.persistentDataPath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
 
             return obj;
-        }
-
-        public void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
-        {
-            var entity = FindObjectsByType<T>(FindObjectsSortMode.None).FirstOrDefault();
-
-            if (entity != null)
-            {
-                if (data == null)
-                {
-                    data = new TData { id = entity.id };
-                }
-                entity.Bind(data);
-            }
-        }
-
-        public void Bind<T, TData>(List<TData> datas) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
-        {
-            var entities = FindObjectsByType<T>(FindObjectsSortMode.None);
-
-            foreach (var entity in entities)
-            {
-                var data = datas.FirstOrDefault(d => d.id == entity.id);
-                if (data == null)
-                {
-                    data = new TData { id = entity.id };
-                    datas.Add(data);
-                }
-            }
         }
     }
 }
