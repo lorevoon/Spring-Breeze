@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 6011313421915658012}
   - component: {fileID: 6866981057958598208}
   - component: {fileID: 2273397838124864574}
+  - component: {fileID: 8936541040274046245}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5265,7 +5266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e2f7a99e1c54c28970b37bee7163fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabbed: {fileID: 0}
+  interactionRange: 5
+  _sprite: {fileID: 0}
   _head: {fileID: 3986912567339575496}
   _headTwistAmount: 15
 --- !u!114 &6866981057958598208
@@ -5294,6 +5296,18 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortAtRoot: 1
+--- !u!114 &8936541040274046245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953192588541589710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d33774e4ee8324e93417a4ad789d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5376186018399413936
 GameObject:
   m_ObjectHideFlags: 0

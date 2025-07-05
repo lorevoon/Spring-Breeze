@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using Utilities;
 using System.Linq;
+using System;
 
 namespace SB.SaveSystem {
     /// <summary>
@@ -12,6 +13,8 @@ namespace SB.SaveSystem {
     public class SaveFileManager : SingletonPersistent<SaveFileManager>
     {
         [SerializeField] private int _fileId = 0;
+
+        private string RelativePath { get => $"{Application.persistentDataPath}"; }
 
         /// <summary>
         /// Saves data to a json file.
@@ -23,7 +26,7 @@ namespace SB.SaveSystem {
         {
             string json = JsonUtility.ToJson(obj);
 
-            File.WriteAllText($"{Application.persistentDataPath}/{_fileId}/{path}.json", json);
+            File.WriteAllText($"{Application.persistentDataPath}/{path}.json", json);
             if (Debug.isDebugBuild)
                 Debug.Log($"<color=#ffff00><b>SaveSystem - Savet</b></color>\n" +
                         $"Saving data at <color=#00ff00>{path}</color> || Data stored: <color=#00ff00>{json}</color>");
@@ -51,7 +54,7 @@ namespace SB.SaveSystem {
 
             if (Debug.isDebugBuild)
                 Debug.Log($"<color=#ffff00><b>SaveSystem - Load</b></color>\n " +
-                        $"Loading data from: <color=#00ff00>{Application.persistentDataPath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
+                        $"Loading data from: <color=#00ff00>{RelativePath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
 
             return obj;
         }
@@ -60,14 +63,16 @@ namespace SB.SaveSystem {
         {
             var entity = FindObjectsByType<T>(FindObjectsSortMode.None).FirstOrDefault();
 
-            if (entity != null)
+            if (entity == null)
             {
-                if (data == null)
-                {
-                    data = new TData { id = entity.id };
-                }
-                entity.Bind(data);
+                throw new NullReferenceException($"<b>{typeof(T)} is missing.</b>");
             }
+            
+            if (data == null)
+            {
+                data = new TData { id = entity.id };
+            }
+            entity.Bind(data);
         }
 
         public void Bind<T, TData>(List<TData> datas) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
