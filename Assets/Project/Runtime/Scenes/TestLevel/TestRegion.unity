@@ -662,6 +662,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6866981057958598208, guid: 7f3f3e08966f2466d866bfe584df5190, type: 3}
+      propertyPath: _defaultPlayerSpeed
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -820,7 +824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0f37aceeb79b04d9dbc18b3c0dea1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadedZone: 
+  _loadedZone: TestRegion_A
   _confiner2D: {fileID: 763436399}
 --- !u!4 &1032198289
 Transform:
@@ -910,7 +914,7 @@ MonoBehaviour:
   m_SpriteShape: {fileID: 11400000, guid: 0dfd44256676b104b8871c27bed5628a, type: 2}
   m_FillPixelPerUnit: 30
   m_StretchTiling: 1
-  m_SplineDetail: 16
+  m_SplineDetail: 8
   m_AdaptiveUV: 1
   m_StretchUV: 0
   m_WorldSpaceUV: 0

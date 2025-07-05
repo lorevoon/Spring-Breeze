@@ -1,20 +1,18 @@
 using UnityEngine;
 using System.IO;
-using System.Collections.Generic;
 using Utilities;
-using System.Linq;
 using System;
 
-namespace SB.SaveSystem {
-    /// <summary>
-    /// Includes methods to load and save data.<br/>
-    /// Saves data in json files.
-    /// </summary>
-    public class SaveFileManager : SingletonPersistent<SaveFileManager>
+namespace SB.SaveSystem
+{
+    internal class DataService
     {
-        [SerializeField] private int _fileId = 0;
+        [SerializeField] private int _fileId;
 
-        private string RelativePath { get => $"{Application.persistentDataPath}"; }
+        public DataService(int fileId)
+        {
+            _fileId = fileId;
+        }
 
         /// <summary>
         /// Saves data to a json file.
@@ -26,7 +24,7 @@ namespace SB.SaveSystem {
         {
             string json = JsonUtility.ToJson(obj);
 
-            File.WriteAllText($"{Application.persistentDataPath}/{path}.json", json);
+            File.WriteAllText($"{Application.persistentDataPath}/{_fileId}/{path}.json", json);
             if (Debug.isDebugBuild)
                 Debug.Log($"<color=#ffff00><b>SaveSystem - Savet</b></color>\n" +
                         $"Saving data at <color=#00ff00>{path}</color> || Data stored: <color=#00ff00>{json}</color>");
@@ -54,40 +52,9 @@ namespace SB.SaveSystem {
 
             if (Debug.isDebugBuild)
                 Debug.Log($"<color=#ffff00><b>SaveSystem - Load</b></color>\n " +
-                        $"Loading data from: <color=#00ff00>{RelativePath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
+                        $"Loading data from: <color=#00ff00>{Application.persistentDataPath}/{path}.json</color>\nData loaded: <color=#00ff00>{json}</color>");
 
             return obj;
-        }
-
-        public void Bind<T, TData>(TData data) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
-        {
-            var entity = FindObjectsByType<T>(FindObjectsSortMode.None).FirstOrDefault();
-
-            if (entity == null)
-            {
-                throw new NullReferenceException($"<b>{typeof(T)} is missing.</b>");
-            }
-            
-            if (data == null)
-            {
-                data = new TData { id = entity.id };
-            }
-            entity.Bind(data);
-        }
-
-        public void Bind<T, TData>(List<TData> datas) where T : MonoBehaviour, IBind<TData> where TData : ISaveable, new()
-        {
-            var entities = FindObjectsByType<T>(FindObjectsSortMode.None);
-
-            foreach (var entity in entities)
-            {
-                var data = datas.FirstOrDefault(d => d.id == entity.id);
-                if (data == null)
-                {
-                    data = new TData { id = entity.id };
-                    datas.Add(data);
-                }
-            }
         }
     }
 }
